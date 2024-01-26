@@ -6,12 +6,14 @@ import jakarta.validation.constraints.Negative;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public record ListaDeComprasDTO(
         @NotNull Long id,
         @NotBlank (message = "O nome não pode estar em branco!") String nome,
         @NotNull List<Produto> produtos,
-        @Negative (message = "O valor da lista não pode estar negativo") double valorTotal
+        @Negative (message = "O valor da lista não pode estar negativo") double valorTotal,
+        LocalDate dataCriacao
         ) {
 }
