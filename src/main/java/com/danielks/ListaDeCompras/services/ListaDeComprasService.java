@@ -6,6 +6,10 @@ import com.danielks.ListaDeCompras.repositories.ListaDeComprasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class ListaDeComprasService {
 
@@ -30,5 +34,21 @@ public class ListaDeComprasService {
                 modelo.valorTotal(),
                 modelo.dataCriacao()
         );
+    }
+
+    public List<ListaDeComprasDTO> recuperarTodasAsListas(Long id) {
+        List<ListaDeCompras> listas = repository.findAll();
+        return listas.stream()
+                .map(this::converteEmDTO)
+                .collect(Collectors.toList());
+    }
+
+    public Optional<ListaDeComprasDTO> recuperarListaPorId(Long id) throws Exception {
+        Optional<ListaDeCompras> listaOptional = repository.findById(id);
+        if(listaOptional.isPresent()){
+            return listaOptional.map(this::converteEmDTO);
+        } else {
+            throw new Exception("Erro");
+        }
     }
 }
