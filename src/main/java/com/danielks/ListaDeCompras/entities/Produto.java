@@ -2,6 +2,7 @@ package com.danielks.ListaDeCompras.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -14,15 +15,17 @@ public class Produto {
     private double valor = 0.0;
     @Column(name = "lista_id")
     private Long listaId;
+    private LocalDate dataCriacao;
 
     public Produto() {
     }
 
-    public Produto(Long id, String nome, double valor, Long listaId) {
+    public Produto(Long id, String nome, double valor, Long listaId, LocalDate dataCriacao) {
         this.id = id;
         this.nome = nome;
         this.valor = valor;
         this.listaId = listaId;
+        this.dataCriacao = dataCriacao;
     }
 
     public Long getId() {
@@ -55,6 +58,14 @@ public class Produto {
 
     public void setListaId(Long listaId) {
         this.listaId = listaId;
+    }
+
+    public LocalDate getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 
     @Override
