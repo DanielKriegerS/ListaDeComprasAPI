@@ -1,6 +1,7 @@
 package com.danielks.ListaDeCompras.services;
 
 import com.danielks.ListaDeCompras.entities.ListaDeCompras;
+import com.danielks.ListaDeCompras.exceptions.ListaExceptions.ListaNaoEncontradaException;
 import com.danielks.ListaDeCompras.models.ListaDeComprasDTO;
 import com.danielks.ListaDeCompras.repositories.ListaDeComprasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,12 +44,12 @@ public class ListaDeComprasService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<ListaDeComprasDTO> recuperarListaPorId(Long id) throws Exception {
+    public Optional<ListaDeComprasDTO> recuperarListaPorId(Long id) {
         Optional<ListaDeCompras> listaOptional = repository.findById(id);
         if(listaOptional.isPresent()){
             return listaOptional.map(this::converteEmDTO);
         } else {
-            throw new Exception("Erro");
+            throw new ListaNaoEncontradaException(id);
         }
     }
 }
