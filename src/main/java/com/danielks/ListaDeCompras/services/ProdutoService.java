@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProdutoService {
@@ -35,7 +36,14 @@ public class ProdutoService {
         );
     }
 
-    public Optional<ProdutoDTO> recuperarTodosProdutos(Long id){
+    public List<ProdutoDTO> recuperarTodosProdutos(){
+        List<Produto> produtos = repositorio.findAll();
+        return produtos.stream()
+                .map(this::converteEmDTO)
+                .collect(Collectors.toList());
+    }
+
+    public Optional<ProdutoDTO> recuperarProdutosPorId(Long id){
         Optional<Produto> produtoOptional = repositorio.findById(id);
         if(produtoOptional.isPresent()){
             return produtoOptional.map(this::converteEmDTO);
@@ -43,5 +51,7 @@ public class ProdutoService {
             throw new ProdutoNaoEncontradoException(id);
         }
     }
+
+
 
 }
