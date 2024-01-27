@@ -39,7 +39,7 @@ public class ListaDeComprasService {
         );
     }
 
-    public List<ListaDeComprasDTO> recuperarTodasAsListas(Long id) {
+    public List<ListaDeComprasDTO> recuperarTodasAsListas() {
         List<ListaDeCompras> listas = repository.findAll();
         return listas.stream()
                 .map(this::converteEmDTO)
