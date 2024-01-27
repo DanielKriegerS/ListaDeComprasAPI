@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class ListaDeComprasService {
 
     @Autowired
-    private ListaDeComprasRepository repository;
+    private ListaDeComprasRepository repositorio;
 
     private ListaDeComprasDTO converteEmDTO(ListaDeCompras entidade) {
         return new ListaDeComprasDTO(
@@ -40,14 +40,14 @@ public class ListaDeComprasService {
     }
 
     public List<ListaDeComprasDTO> recuperarTodasAsListas() {
-        List<ListaDeCompras> listas = repository.findAll();
+        List<ListaDeCompras> listas = repositorio.findAll();
         return listas.stream()
                 .map(this::converteEmDTO)
                 .collect(Collectors.toList());
     }
 
     public Optional<ListaDeComprasDTO> recuperarListaPorId(Long id) {
-        Optional<ListaDeCompras> listaOptional = repository.findById(id);
+        Optional<ListaDeCompras> listaOptional = repositorio.findById(id);
         if(listaOptional.isPresent()){
             return listaOptional.map(this::converteEmDTO);
         } else {
@@ -62,12 +62,12 @@ public class ListaDeComprasService {
         ListaDeCompras lista = converterEmEntidade(listaDTO);
         lista.setDataCriacao(LocalDate.now());
 
-        lista = repository.save(lista);
+        lista = repositorio.save(lista);
         return converteEmDTO(lista);
     }
 
     public ListaDeComprasDTO atualizarLista(Long id, ListaDeComprasDTO listaAtualizadaDTO) {
-        Optional<ListaDeCompras> optionalLista = repository.findById(id);
+        Optional<ListaDeCompras> optionalLista = repositorio.findById(id);
 
         if (optionalLista.isPresent()){
             ListaDeCompras listaExistente = optionalLista.get();
@@ -83,12 +83,12 @@ public class ListaDeComprasService {
                 listaExistente.setProdutos(listaAtualizadaDTO.produtos());
             }
 
-            listaExistente = repository.save(listaExistente);
+            listaExistente = repositorio.save(listaExistente);
             return converteEmDTO(listaExistente);
         } else {
             throw new ListaNaoEncontradaException(id);
         }
     }
 
-    public void deletarLista(Long id) { repository.deleteById(id);}
+    public void deletarLista(Long id) { repositorio.deleteById(id);}
 }
