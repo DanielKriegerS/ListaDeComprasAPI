@@ -65,4 +65,28 @@ public class ListaDeComprasService {
         lista = repository.save(lista);
         return converteEmDTO(lista);
     }
+
+    public ListaDeComprasDTO atualizarLista(Long id, ListaDeComprasDTO listaAtualizadaDTO) {
+        Optional<ListaDeCompras> optionalLista = repository.findById(id);
+
+        if (optionalLista.isPresent()){
+            ListaDeCompras listaExistente = optionalLista.get();
+
+            if(listaAtualizadaDTO.nome() != null){
+                listaExistente.setNome(listaAtualizadaDTO.nome());
+            }
+            if(listaAtualizadaDTO.valorTotal() != listaExistente.getValorTotal()){
+                listaExistente.setValorTotal(listaAtualizadaDTO.valorTotal());
+            }
+
+            if(listaAtualizadaDTO.produtos().size() != listaExistente.getProdutos().size()){
+                listaExistente.setProdutos(listaAtualizadaDTO.produtos());
+            }
+
+            listaExistente = repository.save(listaExistente);
+            return converteEmDTO(listaExistente);
+        } else {
+            throw new ListaNaoEncontradaException(id);
+        }
+    }
 }
