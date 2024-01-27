@@ -5,9 +5,7 @@ import com.danielks.ListaDeCompras.services.ListaDeComprasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +21,11 @@ public class ListaDeComprasController {
     public ResponseEntity<List<ListaDeComprasDTO>> recuperarTodasAsListas() {
         List<ListaDeComprasDTO> listas = service.recuperarTodasAsListas();
         return new ResponseEntity<>(listas, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<ListaDeComprasDTO> criarLista(@RequestBody ListaDeComprasDTO listaDTO){
+        ListaDeComprasDTO listaCriada = service.criarLista(listaDTO);
+        return new ResponseEntity<>(listaCriada, HttpStatus.CREATED);
     }
 }
