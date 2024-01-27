@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/listas")
@@ -27,5 +28,11 @@ public class ListaDeComprasController {
     public ResponseEntity<ListaDeComprasDTO> criarLista(@RequestBody ListaDeComprasDTO listaDTO){
         ListaDeComprasDTO listaCriada = service.criarLista(listaDTO);
         return new ResponseEntity<>(listaCriada, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
+        service.deletarLista(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
