@@ -89,4 +89,6 @@ public class ListaDeComprasService {
             throw new ListaNaoEncontradaException(id);
         }
     }
+
+    public void deletarLista(Long id) { repository.deleteById(id);}
 }
