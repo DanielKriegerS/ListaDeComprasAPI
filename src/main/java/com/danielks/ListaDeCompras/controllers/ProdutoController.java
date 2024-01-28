@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/produtos")
@@ -22,6 +24,13 @@ public class ProdutoController {
     public ResponseEntity<List<ProdutoDTO>> recuperarTodosProdutos() {
         List<ProdutoDTO> produtos = service.recuperarTodosProdutos();
         return new ResponseEntity<>(produtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoDTO> recuperarProdutoPorId(@PathVariable Long id) {
+        Optional<ProdutoDTO> produto = service.recuperarProdutosPorId(id);
+        return produto.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping
