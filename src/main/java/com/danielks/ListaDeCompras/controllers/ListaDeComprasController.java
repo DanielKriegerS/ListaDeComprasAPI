@@ -30,7 +30,7 @@ public class ListaDeComprasController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarLista(@PathVariable Long id) {
         service.deletarLista(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
