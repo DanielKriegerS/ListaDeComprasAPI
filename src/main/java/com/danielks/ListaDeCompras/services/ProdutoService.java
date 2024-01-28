@@ -87,5 +87,8 @@ public class ProdutoService {
         }
     }
 
+    public void deletePost(Long id) {
+        repositorio.deleteById(id);
+    }
 
 }
