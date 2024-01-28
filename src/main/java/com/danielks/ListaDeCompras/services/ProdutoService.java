@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,7 +65,26 @@ public class ProdutoService {
 
         produto = repositorio.save(produto);
         return converteEmDTO(produto);
+    }
 
+    public ProdutoDTO atualizarProduto(Long id, ProdutoDTO produtoDTOAtualizado) {
+        Optional<Produto> optionalProduto = repositorio.findById(id);
+
+        if (optionalProduto.isPresent()) {
+            Produto produtoExistente = optionalProduto.get();
+
+            if (produtoDTOAtualizado.nome() != null) {
+                produtoExistente.setNome(produtoDTOAtualizado.nome());
+            }
+            if (produtoDTOAtualizado.valor() != produtoExistente.getValor()) {
+                produtoExistente.setValor(produtoDTOAtualizado.valor());
+            }
+
+            produtoExistente = repositorio.save(produtoExistente);
+            return converteEmDTO(produtoExistente);
+        } else {
+            throw new ProdutoNaoEncontradoException(id);
+        }
     }
 
 
