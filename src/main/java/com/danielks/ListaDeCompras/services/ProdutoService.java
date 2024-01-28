@@ -2,11 +2,13 @@ package com.danielks.ListaDeCompras.services;
 
 import com.danielks.ListaDeCompras.entities.Produto;
 import com.danielks.ListaDeCompras.exceptions.ProdutoExceptions.ProdutoNaoEncontradoException;
+import com.danielks.ListaDeCompras.exceptions.RequisicaoInvalidaException;
 import com.danielks.ListaDeCompras.models.ProdutoDTO;
 import com.danielks.ListaDeCompras.repositories.ProdutosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -52,6 +54,18 @@ public class ProdutoService {
         }
     }
 
+    public ProdutoDTO criarProduto(ProdutoDTO produtoDTO) {
+        if(produtoDTO.nome() == null) {
+            throw new RequisicaoInvalidaException("O nome não pode estar vazio");
+        }
+
+        Produto produto = converteEmEntidade(produtoDTO);
+        produto.setDataCriacao(LocalDate.now());
+
+        produto = repositorio.save(produto);
+        return converteEmDTO(produto);
+
+    }
 
 
 }
